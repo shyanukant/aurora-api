@@ -15,7 +15,7 @@ const genModel = client.getGenerativeModel({
   generationConfig: {
     candidateCount: 1,
     stopSequences: ["x"],
-    maxOutputTokens: 20,
+    maxOutputTokens: 50,
     temperature: 1.0}
   });
 
