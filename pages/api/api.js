@@ -1,6 +1,8 @@
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import cors from 'cors';
+
 // google gemini api
 // Make sure to include these imports:
-import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // Import the API key from the environment variables
 const MODEL_NAME = "gemini-1.5-flash";
@@ -32,7 +34,7 @@ const chat = genModel.startChat({
 });
 
 // Define the handler function
-export default async function handler(req, res) {
+const handler = async (req, res) => {
   try {
     const userInput = req.query.ques;
     const messages = [ {content: userInput} ];
@@ -49,4 +51,14 @@ export default async function handler(req, res) {
     console.error("Error generating content:", error);
     res.status(500).json({ error: error.message });
   }
+}
+
+export default async function handlerWrapper(req, res) {
+  console.log('req:', req);
+  console.log('res:', res);
+  await cors(req, res, {
+    origin: process.env.CORS_ORIGIN,
+    credentials: true
+  });
+  return handler(req, res);
 }
