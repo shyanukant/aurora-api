@@ -53,12 +53,22 @@ const handler = async (req, res) => {
   }
 }
 
+// Apply CORS middleware
+const corsMiddleware = cors({
+  origin: process.env.CORS_ORIGIN,
+  credentials: true
+});
+
 export default async function handlerWrapper(req, res) {
   console.log('req:', req);
   console.log('res:', res);
-  await cors(req, res, {
-    origin: process.env.CORS_ORIGIN,
-    credentials: true
+
+  corsMiddleware(req, res, async (err) => {
+    if (err) {
+      console.error("CORS error:", err);
+      return res.status(500).json({ error: err.message });
+    }
+    await handler(req, res);
   });
-  return handler(req, res);
+  
 }
