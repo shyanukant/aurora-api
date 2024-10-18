@@ -1,5 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import cors from 'cors';
+import { NextResponse } from "next/server";
 
 // google gemini api
 // Make sure to include these imports:
@@ -15,7 +16,7 @@ const genModel = client.getGenerativeModel({
   generationConfig: {
     candidateCount: 1,
     stopSequences: ["x"],
-    maxOutputTokens: 50,
+    maxOutputTokens: 500,
     temperature: 1.0}
   });
 
